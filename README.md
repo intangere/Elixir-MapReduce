@@ -5,5 +5,5 @@ This is a MapReduce implementation takes advantage of Erlang processes to optimi
 in a piece of text.<br>
 Run with:<br>
 ```
-elixir mapreduce.exs
+elixir mapreduce.ex
 ```
