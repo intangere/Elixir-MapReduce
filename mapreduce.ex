@@ -30,15 +30,15 @@ defmodule MapReducer do
 
 	def collectMapAndReduce(summed_words) do
 		receive do
-            {count_map} -> if Enum.count(count_map) > 0 do IO.puts "[Mapped]: Data Received -> #{inspect count_map}" end
-            reduced_count_map = doReduce(summed_words, count_map)
-            IO.puts("[Reduced]: Subsection reduced.")
-            collectMapAndReduce(reduced_count_map)
-        after 1_000 ->
-        	IO.puts "Queue has been consumed"
-        	IO.puts("[Map Reduce]: Completed. Showing result..")
-        	IO.puts("#{inspect summed_words}")
-        end
+			{count_map} -> if Enum.count(count_map) > 0 do IO.puts "[Mapped]: Data Received -> #{inspect count_map}" end
+			reduced_count_map = doReduce(summed_words, count_map)
+			IO.puts("[Reduced]: Subsection reduced.")
+			collectMapAndReduce(reduced_count_map)
+		after 1_000 ->
+			IO.puts "Queue has been consumed"
+			IO.puts("[Map Reduce]: Completed. Showing result..")
+			IO.puts("#{inspect summed_words}")
+		end
 	end
 end
 
