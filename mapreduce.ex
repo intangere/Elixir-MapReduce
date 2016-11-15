@@ -15,8 +15,7 @@ defmodule MapReducer do
 	end
 
 	def doReduce(reduced_count_map, count_map) do
-		reduced_count_map = Map.merge(count_map, reduced_count_map, fn _k, v1, v2 -> v1 + v2 end)
-		reduced_count_map
+		Map.merge(count_map, reduced_count_map, fn _k, v1, v2 -> v1 + v2 end)
 	end
 
 	def spawnProcesses(lines) do
@@ -31,15 +30,15 @@ defmodule MapReducer do
 
 	def collectMapAndReduce(summed_words) do
 		receive do
-			{:value, count_map} -> if Enum.count(count_map) > 0 do IO.puts "[Mapped]: Data Received -> #{inspect count_map}" end
-			reduced_count_map = doReduce(summed_words, count_map)
-			IO.puts("[Reduced]: Subsection reduced.")
-			collectMapAndReduce(reduced_count_map)
-		after 1_000 ->
-			IO.puts "Queue has been consumed"
-			IO.puts("[Map Reduce]: Completed. Showing result..")
-			IO.puts("#{inspect summed_words}")
-		end
+            {:value, count_map} -> if Enum.count(count_map) > 0 do IO.puts "[Mapped]: Data Received -> #{inspect count_map}" end
+            reduced_count_map = doReduce(summed_words, count_map)
+            IO.puts("[Reduced]: Subsection reduced.")
+            collectMapAndReduce(reduced_count_map)
+        after 1_000 ->
+        	IO.puts "Queue has been consumed"
+        	IO.puts("[Map Reduce]: Completed. Showing result..")
+        	IO.puts("#{inspect summed_words}")
+        end
 	end
 end
 
