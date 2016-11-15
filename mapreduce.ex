@@ -23,14 +23,14 @@ defmodule MapReducer do
 		for line <- lines do
 			spawn fn ->
 				count_map = doMap(0, %{}, String.split(String.strip(line)))
-				send master, {:value, count_map}
+				send master, {count_map}
 			end
 		end
 	end
 
 	def collectMapAndReduce(summed_words) do
 		receive do
-            {:value, count_map} -> if Enum.count(count_map) > 0 do IO.puts "[Mapped]: Data Received -> #{inspect count_map}" end
+            {count_map} -> if Enum.count(count_map) > 0 do IO.puts "[Mapped]: Data Received -> #{inspect count_map}" end
             reduced_count_map = doReduce(summed_words, count_map)
             IO.puts("[Reduced]: Subsection reduced.")
             collectMapAndReduce(reduced_count_map)
